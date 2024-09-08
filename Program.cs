@@ -4,7 +4,10 @@
     {
         private static void Main(string[] args)
         {
-            Menu();
+            while (true)
+            {
+                Menu();
+            }
         }
 
         public static void Menu()
@@ -15,22 +18,26 @@
             Console.WriteLine("0 = Sair");
             Console.WriteLine("Quanto tempo deseja contar:");
 
-            var data = Console.ReadLine()!.ToLower();
-            var type = char.Parse(data.Substring(data.Length - 1, 1));
-            var time = int.Parse(data.Substring(0, data.Length - 1));
-            var multiplier = 1;
+            var data = ReadData();
 
-            if (type == 'm')
+            if (data == "0")
             {
-                multiplier = 60;
+                Exit();
             }
 
-            if (time == '0')
-            {
-                System.Environment.Exit(0);
-            }
+            var time = new Time(data);
 
-            PreStart(time * multiplier);
+            PreStart(time.Interval);
+        }
+
+        private static string ReadData()
+        {
+            return Console.ReadLine()!.ToLower();
+        }
+
+        public static void Exit(int exitCode = 0)
+        {
+            Environment.Exit(exitCode);
         }
 
         public static void PreStart(int time)
@@ -39,16 +46,21 @@
             Console.WriteLine("Ready...");
             Thread.Sleep(1000);
             Console.WriteLine("Set...");
-            Console.WriteLine(1000);
+            Thread.Sleep(1000);
             Console.WriteLine("Go...");
-            Console.WriteLine(1000);
-            Console.WriteLine("Set...");
-            Console.WriteLine(2500);
+            Thread.Sleep(2500);
 
             Start(time);
         }
 
         public static void Start(int time)
+        {
+            Timing(time);
+
+            DisplayFinishedTiming();
+        }
+
+        private static void Timing(int time)
         {
             int currentTime = 0;
 
@@ -59,11 +71,13 @@
                 Console.WriteLine(currentTime);
                 Thread.Sleep(1000);
             }
+        }
 
+        private static void DisplayFinishedTiming()
+        {
             Console.Clear();
             Console.WriteLine("Stopwatch finalizado");
             Thread.Sleep(2500);
-            Menu();
         }
     }
 }
