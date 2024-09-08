@@ -20,11 +20,6 @@
 
             var data = ReadData();
 
-            if (data == "0")
-            {
-                Exit();
-            }
-
             var time = new Time(data);
 
             PreStart(time.Interval);
@@ -32,7 +27,14 @@
 
         private static string ReadData()
         {
-            return Console.ReadLine()!.ToLower();
+            var data = Console.ReadLine()!.ToLower();
+
+            if (data == "0")
+            {
+                Exit();
+            }
+
+            return data;
         }
 
         public static void Exit(int exitCode = 0)
